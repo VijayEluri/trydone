@@ -1,0 +1,66 @@
+<span class="genmed"><b><a href="${JForumContext.encodeURL("/user/profile/${user.id}")}">${user.username?html}</a></b></span>
+<br />
+<#if karmaEnabled && post.userId != 1>
+	<script type="text/javascript">writeStars(${user.karma.karmaPoints}, "${user.id}${post.id}");</script>
+	<br />
+</#if>
+
+<span class="gensmall">
+<#if post.userId != 1>
+	${rank.getRankTitle(user.rankId, user.totalPosts)}
+	<br />
+</#if>
+
+<#if (user.avatar?exists && user.avatar?length > 0)>
+	<#if user.isExternalAvatar() || user.avatar.startsWith("http://")>
+		<#if avatarAllowExternalUrl>
+			<img src="${user.avatar?html}" border="0" alt="[Avatar]" />
+		</#if>
+	<#else>
+		<img src="${contextPath}/images/avatar/${user.avatar}" border="0" alt="[Avatar]" /><br />
+	</#if>
+</#if>
+<br /> 
+
+<#if post.userId != 1>
+	${I18n.getMessage("PostShow.userRegistrationDate")}: ${user.getRegistrationDateFormated()}<br />
+	${I18n.getMessage("PostShow.userTotalMessages")}: ${user.totalPosts}
+</#if>
+<br />
+
+<#if (user.from?exists && user.from?length > 0)>
+	${I18n.getMessage("PostShow.userFrom")}: ${user.from?html}
+	<br />
+</#if>
+
+<#if post.userIp?exists && isModerator>
+	${I18n.getMessage("PostShow.userIP")}: ${post.userIp}
+	<br />
+</#if>
+
+<#if post.userId != 1>
+	<#if user.isOnline()>
+		<span class="online">${I18n.getMessage("PostShow.userOnline")}</span>
+	<#else>
+		<span class="offline">${I18n.getMessage("PostShow.userOffline")} </span>
+	</#if>
+</#if>
+ <br/>
+    <#if (user.sex?exists &&( user.sex==1 || user.sex==2))>
+        ${I18n.getMessage("User.sex")}:
+        <#if user.sex==1>
+            ${I18n.getMessage("User.sex.male")}
+            <#elseif user.sex==2>
+                ${I18n.getMessage("User.sex.female")}
+                <#else>
+                    ${I18n.getMessage("User.sex.unknown")}
+        </#if>
+        <br/>
+    </#if> 
+<#if (user.birthday?exists )>
+    ${I18n.getMessage("User.birthday")}:${user.birthdayFormated}</br>
+</#if>
+
+
+</span>
+<br />
