@@ -221,7 +221,10 @@ public class JForum extends JForumBaseServlet
 	{
 		// Here we go, baby
 		Command c = this.retrieveCommand(moduleClass);
-		Template template = c.process(request, response, context);
+        Template template =null;
+        if (!request.getAction().equals("downloadAttach")){   //pinke : download is not template.
+            template = c.process(request, response, context);
+        }
 
 		if (JForumExecutionContext.getRedirectTo() == null) {
 			String contentType = JForumExecutionContext.getContentType();
@@ -289,7 +292,7 @@ public class JForum extends JForumBaseServlet
 				new ExceptionWriter().handleExceptionData(e, out, request);
 			}
 			else {
-				new ExceptionWriter().handleExceptionData(e, new BufferedWriter(new OutputStreamWriter(response.getOutputStream())), request);
+				new ExceptionWriter().handleExceptionData(e, new BufferedWriter(new OutputStreamWriter(response.getOutputStream(),encoding)), request);
 			}
 		}
 	}
