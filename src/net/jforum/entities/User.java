@@ -62,6 +62,7 @@ import java.util.*;
  * @author Rafael Steil
  */
 public class User implements Serializable {
+    
     private int id;
     private int themeId;
     private int level;
@@ -128,6 +129,7 @@ public class User implements Serializable {
     private int unreadPrivateMessageCount;
     private boolean popupPrivateMessage;
     private boolean viewAllowOnlineEnabled;
+    private static final long serialVersionUID = -263234155995224915L;
 
     public boolean getViewAllowOnlineEnabled() {
         return viewAllowOnlineEnabled;
