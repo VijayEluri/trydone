@@ -208,6 +208,8 @@ public class JForum extends JForumBaseServlet
 				}
 			}
 		}
+		catch (RuntimeException e) {
+			this.handleException(out, response, encoding, e, request);}
 		catch (Exception e) {
 			this.handleException(out, response, encoding, e, request);
 		}
@@ -221,12 +223,10 @@ public class JForum extends JForumBaseServlet
 	{
 		// Here we go, baby
 		Command c = this.retrieveCommand(moduleClass);
-        Template template =null;
-        if (!request.getAction().equals("downloadAttach")){   //pinke : download is not template.
-            template = c.process(request, response, context);
-        }
+        Template template = null;
+        template = c.process(request, response, context);
 
-		if (JForumExecutionContext.getRedirectTo() == null) {
+        if (JForumExecutionContext.getRedirectTo() == null) {
 			String contentType = JForumExecutionContext.getContentType();
 			
 			if (contentType == null) {
@@ -238,11 +238,12 @@ public class JForum extends JForumBaseServlet
 			// Binary content are expected to be fully 
 			// handled in the action, including outputstream
 			// manipulation
-			if (!JForumExecutionContext.isCustomContent()) {
-				out = new BufferedWriter(new OutputStreamWriter(response.getOutputStream(), encoding));
-				template.process(JForumExecutionContext.getTemplateContext(), out);
-				out.flush();
-			}
+            if (template != null)
+                if (!JForumExecutionContext.isCustomContent()) {
+                    out = new BufferedWriter(new OutputStreamWriter(response.getOutputStream(), encoding));
+                    template.process(JForumExecutionContext.getTemplateContext(), out);
+                    out.flush();
+                }
 		}
 		
 		return out;
